@@ -1,0 +1,2 @@
+# RAG
+Local RAG Application
