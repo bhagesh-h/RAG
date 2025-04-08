@@ -13,6 +13,7 @@ class ollamaFunc:
             ollama.pull(self.model)
         if self.embedding_model:
             ollama.pull(self.embedding_model)
+        return self.model
     
     def embed_model(self):
         if self.embedding_model:
