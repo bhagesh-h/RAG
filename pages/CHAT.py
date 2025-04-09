@@ -1,22 +1,72 @@
 import os
 import streamlit as st
-import pages.FILES as files
-from modules.misc_UI import navigation_buttons, chatUI
+from modules.misc_UI import navigation_buttons, imageSelectorUI
+from modules.simple_rag import RAGDescriptionChain
+from modules.simple_rag import ImageDescriptionChain
+
+from modules import misc_ollama as ollama
 
 st.title("GenomeConnect")
 st.subheader("AI Powered NGS Querying")
 
-image1 = "https://m.media-amazon.com/images/I/41sHexVm4NL._AC_US60_SCLZZZZZZZ__.jpg"
-image2 = "https://m.media-amazon.com/images/I/41YNaNTqJoL._AC_US60_SCLZZZZZZZ__.jpg"
-image3 = "https://m.media-amazon.com/images/I/41t1HM8UN8L._AC_US60_SCLZZZZZZZ__.jpg"
-image4 = "https://m.media-amazon.com/images/I/41UuyU7HsPL._AC_US60_SCLZZZZZZZ__.jpg"
-image5 = "https://m.media-amazon.com/images/I/31XThr46I6L._AC_US60_SCLZZZZZZZ__.jpg"
-image_list = [image1, image2, image3, image4, image5]
+models=["gemma3:4b"]
 
-models=["gemma3:4b","all-minilm"]
+# CREATE VECTOR DB
+pdf_output          = "/mnt/c/Users/bhage/Documents/code/RAG/output/pdf"
+html_output         = "/mnt/c/Users/bhage/Documents/code/RAG/output/html"
+pdf_image_output    = "/mnt/c/Users/bhage/Documents/code/RAG/output/pdf/images"
+persist_dir        = "/mnt/c/Users/bhage/Documents/code/RAG/output/chroma"
+
 
 if __name__ == "__main__":
-    st.write(st.session_state['files'])
-    disable_navigation_dict = {"HOME": False, "LOGIN": True, "FILES": False, "CHAT": True}
+    disable_navigation_dict = {"HOME": False, "LOGIN": True, "FILES": False, "CHAT": True, "IMAGES": False}
     navigation_buttons(disable_navigation_dict)
-    chatUI(models, client="test_client")
+
+    st.warning('AI generated content!', icon="⚠️")
+
+    if not 'files' in st.session_state: st.session_state['files'] = ''
+    if not 'image' in st.session_state: st.session_state['image'] = ''
+    if not 'rag' in st.session_state: st.session_state['rag'] = ''
+
+    # MODEL SELECTION
+    if "model" not in st.session_state: st.session_state["model"] = "gemma3:4b"
+    
+    col1, col2, col3 = st.columns(3, gap="small", vertical_alignment="top")
+    with col1: 
+        model = st.selectbox("Pick Model", models)
+        if st.button("Download"):
+            ollamaFunc = ollama.ollamaFunc(model=model, embedding_model="all-minilm")
+            with st.spinner(f"Downloading model: {model}", show_time=True):
+                ollamaFunc.pull_model()
+    
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+    # COLLECT IMAGES
+    if st.button("Image Selector"):
+        st.switch_page("pages/IMAGES.py")
+
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+   
+    if prompt := st.chat_input(f"Ask {model} about your reports!"):
+
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        with st.chat_message("assistant"):
+            response = "Oops! I am not able to answer this question. Please try again."
+            with st.spinner(f"Thinking... ", show_time=True):
+                if prompt and st.session_state['image']:
+                    client          = ImageDescriptionChain(model=st.session_state["model"], temperature=0)
+                    response        = st.write(client.query(prompt, st.session_state['image']))
+                elif prompt and st.session_state['rag'] and not st.session_state['image']:
+                    rag = st.session_state['rag']
+                    retrieved_doc, metadata = rag.query_chromadb(prompt, n_results=2)
+                    client      = RAGDescriptionChain(retrieved_doc=retrieved_doc, metadata=metadata, query_text=prompt, llm_model=st.session_state["model"])
+                    response    = st.write(client.query_ollama())
+        
+        st.session_state.messages.append({"role": "assistant", "content": response})

@@ -11,7 +11,12 @@ class ParsePDF:
         self.output = output
     
     def UnstructuredPDFLoader(self):
-        pdfs_list       = glob.glob(os.path.join(self.path,"*.pdf"))
+        try:
+            if os.path.isdir(self.path):
+                pdfs_list = glob.glob(os.path.join(self.path,"*.pdf"))
+        except:
+            pdfs_list       = self.path
+        
         images_path     = os.path.join(self.output, "images")
         text_path       = os.path.join(self.output, "text")
         loader_object   = {}

@@ -7,5 +7,5 @@ st.subheader("AI Powered NGS Querying")
 
 
 if __name__ == "__main__":
-    disable_navigation_dict = {"HOME": False, "LOGIN": False, "FILES": True, "CHAT": True}
+    disable_navigation_dict = {"HOME": False, "LOGIN": False, "FILES": True, "CHAT": True, "IMAGES": False}
     navigation_buttons(disable_navigation_dict)

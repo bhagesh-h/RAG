@@ -11,7 +11,12 @@ class ParseHtml:
         self.output = output
     
     def UnstructuredHtmlLoader(self):
-        html_list       = glob.glob(os.path.join(self.path,"*.html"))
+        try:
+            if os.path.isdir(self.path):
+                html_list       = glob.glob(os.path.join(self.path,"*.html"))
+        except:
+            html_list       = self.path
+        
         images_path     = os.path.join(self.output, "images")
         text_path       = os.path.join(self.output, "text")
         loader_object   = {}

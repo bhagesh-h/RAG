@@ -1,6 +1,7 @@
 from langchain_core.messages import HumanMessage
 from langchain_ollama import ChatOllama
 from langchain_core.output_parsers import StrOutputParser
+from langchain_ollama import OllamaLLM
 
 class ImageDescriptionChain:
     def __init__(self, model="gemma3:4b", temperature=0):
@@ -45,7 +46,23 @@ class ImageDescriptionChain:
         input_data = {"text": text, "image": image_b64}
         return self.chain.invoke(input_data)
 
-
+class RAGDescriptionChain:
+    def __init__(self, retrieved_doc='', metadata='', query_text='', llm_model='gemma3:4b'):
+        self.retrieved_docs = retrieved_doc
+        self.metadata = metadata
+        self.query_text = query_text
+        self.llm_model = llm_model
+    def rag_pipeline(self):
+        if self.retrieved_docs and self.metadata:
+            context = " ".join(self.retrieved_docs[0]) if self.retrieved_docs else "No relevant documents found."
+            augmented_prompt = f"Context: {context}\n\nQuestion: {self.query_text}\nAnswer:"
+        else:
+            augmented_prompt = f"Question: {self.query_text}\nAnswer:"
+        return augmented_prompt
+    def query_ollama(self):
+        llm = OllamaLLM(model=self.llm_model)
+        return llm.invoke(self.rag_pipeline())
+                 
 # Example usage:
 if __name__ == "__main__":
     # Initialize the chain with a specific model and temperature

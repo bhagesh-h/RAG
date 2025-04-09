@@ -100,6 +100,7 @@ if __name__ == "__main__":
     rag = embeddings()
 
     documents, doc_ids = [], []
+    
     # Add documents to the collection
     rag.add_documents(documents, doc_ids)
 
