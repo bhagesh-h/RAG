@@ -14,7 +14,7 @@ class ParseTxt:
             data_dict = {}
             for document, loader_obj in self.loader_obj_dict.items():
                 for doc in loader_obj:
-                    page_number     = f"{document}_{doc.metadata.get("page_number")}" if doc.metadata.get("page_number") else f"{document}_1"
+                    page_number     = f"{document}_{doc.metadata.get('page_number')}" if doc.metadata.get("page_number") else f"{document}_1"
                     page_content    = doc.page_content
                     if page_number in data_dict.keys():
                         data_dict[page_number] = data_dict[page_number] + ' ' + page_content

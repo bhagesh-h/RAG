@@ -19,7 +19,7 @@ pdf_image_output    = "/mnt/c/Users/bhage/Documents/code/RAG/output/pdf/images"
 persist_dir        = "/mnt/c/Users/bhage/Documents/code/RAG/output/chroma"
 
 if __name__ == "__main__":
-    disable_navigation_dict = {"HOME": True, "LOGIN": True, "FILES": True, "CHAT": True, "IMAGES": False}
+    disable_navigation_dict = {"HOME": False, "LOGIN": True, "FILES": False, "CHAT": False, "IMAGES": False}
     navigation_buttons(disable_navigation_dict)
 
     # COLLECT IMAGES

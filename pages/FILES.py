@@ -44,7 +44,7 @@ def parse_files(file_list, persist_dir):
     st.session_state['rag'] = rag
 
 if __name__ == "__main__":
-    disable_navigation_dict = {"HOME": False, "LOGIN": False, "FILES": True, "CHAT": True, "IMAGES": False}
+    disable_navigation_dict = {"HOME": False, "LOGIN": False, "FILES": True, "CHAT": True, "IMAGES": True}
     navigation_buttons(disable_navigation_dict)
 
     fileSelectorUI(path=path)

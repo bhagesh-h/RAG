@@ -60,7 +60,7 @@ def chatUI(models, image='', response=''):
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
    
-    if prompt := st.chat_input(f"Ask {model} about your reports!"):
+    if prompt := st.chat_input(f"Ask {st.session_state["model"]} about your reports!"):
         
         st.session_state.messages.append({"role": "user", "content": prompt})
         

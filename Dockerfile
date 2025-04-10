@@ -14,6 +14,8 @@ RUN mkdir -p ~/.streamlit/ && \
     sed -i 's/# runOnSave = false/runOnSave = true/' config.toml && \
     sed -i 's/# fileWatcherType = "auto"/fileWatcherType = "poll"/' config.toml && \
     grep -v "#" config.toml | grep -v ' ~/.streamlit/config.toml.' > ~/.streamlit/config.toml
-    
+
+RUN pip install streamlit-image-select
+RUN apt-get install -y libgl1-mesa-glx
 # RUN nohup ollama serve &>> ollama.log &
 
