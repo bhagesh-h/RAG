@@ -7,11 +7,13 @@ from rank_bm25 import BM25Okapi
 
 # from langchain_ollama import OllamaLLM
 
+# Step 1: Create embeddings and vector store
 def create_embeddings(text_contents, embedding_model, base_url):
     embeddings = OllamaEmbeddings(model=embedding_model, base_url=base_url)
     vector_store = FAISS.from_texts(text_contents, embeddings)
     return vector_store
 
+# Step 2: Create BM25 retriever
 def create_bm25_retriever(text_contents):
     bm25_retriever = BM25Retriever.from_texts(
         text_contents,
@@ -26,11 +28,9 @@ def perform_hybrid_retrieval(query, vector_store, bm25_retriever, K_value=5, top
     combined_results = bm25_results + faiss_results
     return combined_results[:int(top_results)]
 
-def process_text_and_retrieve(text_contents, query, embedding_model, base_url, num_results=3):
-    # Step 1: Create embeddings and vector store
-    vector_store    = create_embeddings(text_contents, embedding_model, base_url)
-    # Step 2: Create BM25 retriever
-    bm25_retriever  = create_bm25_retriever(text_contents)
+def process_text_and_retrieve(query, embedding_model=None, base_url=None, num_results=3, embeddings=None, retriever=None, text_contents=None):
+    vector_store    = embeddings if embeddings else create_embeddings(text_contents, embedding_model, base_url)
+    bm25_retriever  = retriever if retriever else create_bm25_retriever(text_contents)
     # Step 3: Perform hybrid retrieval
     results         = perform_hybrid_retrieval(query, vector_store, bm25_retriever)
     # Step 4: Extract and return only the top X lines from the relevant text content

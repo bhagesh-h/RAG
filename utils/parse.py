@@ -7,10 +7,10 @@ from unstructured.partition.pdf import partition_pdf
 
 class PDFProcessor:
 
-    def __init__(self):
-        self.split_dir = os.path.join(os.getcwd(), 'splits')
+    def __init__(self, split_dir=None):
+        self.split_dir = split_dir
 
-    def process_single_pdf(self, file_path, image_path=os.path.join(os.getcwd(), 'images')):
+    def process_single_pdf(self, file_path, image_path=None):
         return partition_pdf(
             filename=file_path,
             content_type="application/pdf",
