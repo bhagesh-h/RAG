@@ -110,6 +110,9 @@ if __name__ == "__main__":
         with st.spinner(f"Parsing PDF: ", show_time=True):
             PDFProcessor_instance = PDFProcessor(split_dir=os.path.join(vectorDB_pdf_output,'splits'))
             st.session_state['content'] = PDFProcessor_instance.process_pdf_in_parallel(st.session_state['files'])
+            images_dir = os.path.join(vectorDB_pdf_output, 'images')
+            if len(os.listdir(images_dir)) > 0:
+                st.session_state['image'] = images_dir
             with st.spinner(f"Creating vector DB: ", show_time=True):
                 st.session_state['embeddings'] = create_embeddings(
                     text_contents=[content.text for content in st.session_state['content']], 
