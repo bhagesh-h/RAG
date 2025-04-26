@@ -111,7 +111,7 @@ vectorDB_pdf_output         = os.path.join(MIAN_DIR,data['VectorDB']['pdf_output
 vectorDB_vector_persist_dir = os.path.join(MIAN_DIR,data['VectorDB']['vector_persist_dir'])
 
 if __name__ == "__main__":
-    navigation_buttons({"HOME": False, "LOGIN": False, "FILES": False, "CHAT": True, "IMAGE": False})
+    navigation_buttons({"HOME": False, "LOGIN": False, "FILES": False, "CHAT": False, "IMAGE": True})
 
     st.warning('AI generated content!', icon="⚠️")
     
