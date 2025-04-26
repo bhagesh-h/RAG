@@ -63,8 +63,8 @@ replace container name `rag` with `bhagesh/rag` if you are pulling the image ins
 
 
 **Password**: admin
-
-Estimates Requirements - Storage 15GB, RAM 8GB
+--------------------------------
+Estimated Requirements - Storage 15GB, RAM 8GB
 
 
 Tested on *Asus Zephyrus G14* (2024), **CPU** Ryzen 9 8945HS, **RAM** 16GB, **Storage** 1TB SSD
