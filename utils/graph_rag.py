@@ -5,7 +5,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.retrievers import BM25Retriever
 from rank_bm25 import BM25Okapi
 
-# from langchain_ollama import OllamaLLM
+from langchain_ollama import OllamaLLM
 
 # Step 1: Create embeddings and vector store
 def create_embeddings(text_contents, embedding_model, base_url):
@@ -63,12 +63,15 @@ def generate_answer(query, retrieved_docs, model, base_url, temperature=0.7):
     # Step 2: Create a structured prompt
     prompt = f"""Use the following context to answer the question:\n\nContext:\n{context}\n\nQuestion:\n{query}\n\nAnswer:
     """
-    # # Step 3: Send the prompt to the language model
-    # llm = OllamaLLM(model=model)
-    # return llm.invoke(prompt)
-    response = requests.post(f"{base_url}/api/generate", json={"model": model, "prompt": prompt, "temperature": temperature, "stream": False})
-    # Step 4: Parse and return the response
-    if response.status_code == 200:
-        return response.json().get("response", "No answer generated.")
-    else:
-        return f"Error: {response.status_code} - {response.text}"
+    # Step 3: Send the prompt to the language model
+    try:
+        response = requests.post(f"{base_url}/api/generate", json={"model": model, "prompt": prompt, "temperature": temperature, "stream": False})
+        # Step 4: Parse and return the response
+        if response.status_code == 200:
+            return response.json().get("response", "No answer generated.")
+        else:
+            return f"Error: {response.status_code} - {response.text}"
+    except requests.RequestException as e:
+        # Step 4: Parse and return the response
+        llm = OllamaLLM(model=model)
+        return llm.invoke(prompt)
