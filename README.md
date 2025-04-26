@@ -28,7 +28,7 @@ docker buildx build --builder <builder-name> -t rag .
 
 P.S. Estimated Image Size **12 GB**
 
-### Run Application
+## Run Application
 
 1. Linux Based OS
 
@@ -56,6 +56,9 @@ docker run --rm -it `
 
 replace container name `rag` with `bhagesh/rag` if you are pulling the image instead of building it.
 
+### USer Details
+**Username**: admin
+**Password**: admin
 
 Estimates Requirements - Storage 15GB, RAM 8GB
 
