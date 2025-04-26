@@ -1,5 +1,5 @@
 # RAG
-Local RAG Application
+Local PDF RAG Application
 
 ## Docker
 
