@@ -1,16 +1,15 @@
 import streamlit as st
 from utils.ui import navigation_buttons
 
-st.title("GenomeConnect")
-st.subheader("AI Powered NGS Querying")
+st.title("LOCAL RAG")
+st.subheader("AI Powered PDF Querying")
 
 if __name__ == "__main__":
     navigation_buttons({"HOME": False, "FILES": True, "CHAT": True, "IMAGE": True})
 
     st.markdown("-------------------------")
-    st.markdown("Welcome to **GenomeConnect** — your personalized companion for understanding genomic reports.")
-    st.markdown("Powered by advanced Graph **Retrieval-Augmented Generation** (RAG) technology, **GenomeConnect** enables users to ask questions directly about their genetic data and receive accurate, context-aware answers.") 
-    st.markdown("Whether you're seeking clarity on variants, insights into your health, or support interpreting complex findings, **GenomeConnect** is here to bridge the gap between raw data and meaningful understanding.")
+    st.markdown("Welcome to **LOCAL RAG** — your personalized companion for understanding PDFs.")
+    st.markdown("Powered by advanced Graph **Retrieval-Augmented Generation** (RAG) technology, **LOCAL RAG** enables users to ask questions directly about their data and receive accurate, context-aware answers.") 
     st.markdown("-------------------------")
 
     name        = st.text_input("Username", placeholder="Enter your user name")

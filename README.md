@@ -39,7 +39,7 @@ docker run --rm -it \
     -v /local/test_data:/tmp \
     -p 11434:11434 \
     -p 8080:8080 \
-    rag /script/run.sh
+    rag bash /script/run.sh
 ```
 
 2. Windows OS
@@ -51,7 +51,7 @@ docker run --rm -it `
     -v "C:\Users\bhage\Documents\RAG\test_data:/tmp" `
     -p 11434:11434 `
     -p 8080:8080 `
-    rag /script/run.sh
+    rag bash /script/run.sh
 ```
 
 replace container name `rag` with `bhagesh/rag` if you are pulling the image instead of building it.
