@@ -46,9 +46,9 @@ docker run --rm -it \
 
 ```shell
 docker run --rm -it `
-    -v "C:\Users\bhage\Documents\ollama_models:/root/.ollama" `
-    -v "C:\Users\bhage\Documents\RAG:/script" `
-    -v "C:\Users\bhage\Documents\RAG\test_data:/tmp" `
+    -v "C:\Users\usr\Documents\ollama_models:/root/.ollama" `
+    -v "C:\Users\usr\Documents\RAG:/script" `
+    -v "C:\Users\usr\Documents\RAG\test_data:/tmp" `
     -p 11434:11434 `
     -p 8080:8080 `
     rag bash /script/run.sh
